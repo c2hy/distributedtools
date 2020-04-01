@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>suzor</groupId>
     <artifactId>distributedtools-spring-boot-starter</artifactId>
-    <version>1.0.0.RELEASE</version>
+    <version>1.0.1</version>
 
     <dependencies>
         <dependency>
@@ -17,12 +17,6 @@
             <groupId>org.javatuples</groupId>
             <artifactId>javatuples</artifactId>
             <version>1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 

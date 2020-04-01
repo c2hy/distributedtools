@@ -1,9 +1,9 @@
 # distributedtools-spring-boot-starter
 - DistributedLock
 
-  对于 spring-integration-redis 的封装。使用前先声明 bean
+  对于 spring-integration-redis 的封装。该锁是可重入锁，但不支持在多线程的环境下共享锁，会导致解锁失败。
 
-  `org.springframework.integration.support.locks.LockRegistry`
+  使用前先声明 bean `org.springframework.integration.support.locks.LockRegistry`
 
   ```java
   @Configuration
@@ -17,7 +17,11 @@
 
   该类的具体说明可以参考 spring 的文档。
 
-  `DistributedLock.autoUnlock` 方法需要传入一个 Runnable 类型的 lambad 表达式，在 autoUnlock 方法执行的最后会自动解锁。
+  `DistributedLockFactory.create` 创建一个锁。
 
-  `DistributedLock.lock` 方法会声明一个基于 Redis 的分布式锁。
+  `DistributedLock` 使用 try with resource 机制自动解锁，避免因为异常问题而死锁。
+
+  `DistributedLock.lock` 方法会声明一个基于 Redis 的分布式锁，锁可重入，可以通过传入时间来声明获取锁超时的时间，如果超时会抛出异常。
+
+  `DistributedLock.unlock` 方法可以进行解锁。根据传入的参数，可以只解锁一次或解锁一个key的重入锁的全部锁，或解锁全部的锁。
 
