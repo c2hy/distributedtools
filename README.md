@@ -10,7 +10,7 @@
   public class RedisConfig {
       @Bean
       public LockRegistry lockRegistry(RedisConnectionFactory redisConnectionFactory) {
-          return new RedisLockRegistry(redisConnectionFactory, "suzor");
+          return new RedisLockRegistry(redisConnectionFactory, "key");
       }
   }
   ```
@@ -20,6 +20,17 @@
   `DistributedLockFactory.create` 创建一个锁。
 
   `DistributedLock` 使用 try with resource 机制自动解锁，避免因为异常问题而死锁。
+
+  ```java
+  public void sample() {
+      try(DistributedLock distributedLock = DistributedLockFactory.create()){
+          // 执行过程中手动解除部分锁
+          distributedLock.lock("key");
+          distributedLock.unlock("key");
+      }
+      // 执行结束自动解锁
+  }
+  ```
 
   `DistributedLock.lock` 方法会声明一个基于 Redis 的分布式锁，锁可重入，可以通过传入时间来声明获取锁超时的时间，如果超时会抛出异常。
 
